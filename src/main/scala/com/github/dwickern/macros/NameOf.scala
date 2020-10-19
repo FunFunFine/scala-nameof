@@ -1,5 +1,7 @@
 package com.github.dwickern.macros
 
+import com.github.dwickern.macros.config.NameOfConfig
+
 trait NameOf {
   import scala.language.experimental.macros
 
@@ -12,7 +14,7 @@ trait NameOf {
     *   nameOf(amount) => "amount"
     * }}}
     */
-  def nameOf(expr: Any): String = macro NameOfImpl.nameOf
+  def nameOf(expr: Any)(implicit config: NameOfConfig): String = macro NameOfImpl.nameOf
 
   /**
     * Obtain an identifier name as a constant string.
@@ -25,7 +27,7 @@ trait NameOf {
     *   nameOf[Person](_.name) => "name"
     * }}}
     */
-  def nameOf[T](expr: T => Any): String = macro NameOfImpl.nameOf
+  def nameOf[T](expr: T => Any)(implicit config: NameOfConfig): String = macro NameOfImpl.nameOf
 
   /**
     * Obtain a type's unqualified name as a constant string.
@@ -36,7 +38,7 @@ trait NameOf {
     *   nameOfType[fully.qualified.ClassName] => "ClassName"
     * }}}
     */
-  def nameOfType[T]: String = macro NameOfImpl.nameOfType[T]
+  def nameOfType[T](implicit config: NameOfConfig): String = macro NameOfImpl.nameOfType[T]
 
   /**
     * Obtain a type's qualified name as a constant string.
@@ -47,6 +49,6 @@ trait NameOf {
     *   nameOfType[fully.qualified.ClassName] => "fully.qualified.ClassName"
     * }}}
     */
-  def qualifiedNameOfType[T]: String = macro NameOfImpl.qualifiedNameOfType[T]
+  def qualifiedNameOfType[T](implicit config: NameOfConfig): String = macro NameOfImpl.qualifiedNameOfType[T]
 }
 object NameOf extends NameOf
